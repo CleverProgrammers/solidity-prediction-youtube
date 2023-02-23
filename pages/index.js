@@ -56,7 +56,6 @@ const styles = {
   currentStockPriceTitle: 'text-[8px] text-[#ffffff] mt-4',
   currentStockPriceAmount: 'text-lg text-[#ffffff]',
 }
-const timeTypes = ['seconds', 'days', 'months']
 const Home = () => {
   const [showStockDropDown, setShowStockDropDown] = useState(false)
   const [showAssetDropDown, setShowAssetDropDown] = useState(true)
