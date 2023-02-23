@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-import Image from 'next/image'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 

@@ -15,13 +15,10 @@ const styles = {
   currentStockPriceAmount: 'text-lg text-[#ffffff]',
 }
 
-import { IoMdClose } from 'react-icons/io'
 import { useAppContext } from '../context/context'
 
 const AvailableBets = ({ setSelectedBet, setShowModal }) => {
   const { bets } = useAppContext()
-  // Static
-  const allBets = []
 
   return (
     <div className={styles.availableBetsContainer}>

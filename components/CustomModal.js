@@ -29,11 +29,6 @@ const CustomModal = ({
   const [p2Guess, setP2Guess] = useState(0)
   const [low, setLow] = useState(selectedBet.low)
 
-  // Static
-  const staticEnterbet = () => {
-    console.log('Closing bet')
-  }
-
   const onClose = () => {
     setHigh(selectedBet.high)
     setLow(selectedBet.low)

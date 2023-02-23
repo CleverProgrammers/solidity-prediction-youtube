@@ -63,14 +63,9 @@ const Home = () => {
   const [showBetDropdown, setShowBetDropdown] = useState(false)
   const [guess, setGuess] = useState('')
   const [eth, setEth] = useState('')
-  const [time, setTime] = useState('')
-  const [timeType, setTimeType] = useState(timeTypes[0])
-  const [timeDropDown, setTimeTypeDropDown] = useState(false)
   const [selectedBet, setSelectedBet] = useState({})
   const [showModal, setShowModal] = useState(false)
   const [stockName, setStockName] = useState(STOCKDATA[0].name)
-  const [stockPrice, setStockPrice] = useState(STOCKDATA[0].price)
-  const [priceKey, setPriceKey] = useState(STOCKDATA[0].priceKey)
   const [availableStock, setAvailableStock] = useState([])
 
   const {
@@ -91,7 +86,6 @@ const Home = () => {
     if (!eth || !guess || !currentCoinPrice) return
     const contract = await createContractObject()
     const amountToSend = toWei(eth, 18)
-    const betAmount = toWei(guess, 18)
     const result = await contract.enterBet(guess, {
       value: amountToSend,
       gasLimit: 300000,

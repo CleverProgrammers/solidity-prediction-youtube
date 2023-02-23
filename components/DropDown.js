@@ -4,8 +4,6 @@ import Asset from './Asset'
 import { BiDotsHorizontalRounded } from 'react-icons/bi'
 import { BsPlusLg } from 'react-icons/bs'
 //Dependencies
-import { useState, useContext, useEffect } from 'react'
-import { STOCKDATA, CRYPTODATA } from '../data/asset.seed'
 //Styles
 const styles = {
   rightMainItem:
@@ -13,8 +11,6 @@ const styles = {
   ItemTitle: 'flex-1 font-bold',
   moreOptions: 'cursor-pointer text-xl',
 }
-
-import { useAppContext } from '../context/context'
 
 const DropDown = ({ data, setData, showDropDown, setShowDropDown, title }) => {
   return (
