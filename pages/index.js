@@ -15,6 +15,7 @@ import CustomModal from '../components/CustomModal'
 import { useAppContext } from '../context/context'
 import { createContractObject } from '../utils/contract'
 import { toWei } from '../utils/ether-utils'
+import { useAccount } from 'wagmi'
 
 //Styles
 const styles = {
@@ -81,9 +82,11 @@ const Home = () => {
     startPrediction,
     lastWinner,
     pool,
+    contractOwner,
   } = useAppContext()
 
-  // Static
+  const account = useAccount().address
+
   const createBet = async () => {
     if (!eth || !guess || !currentCoinPrice) return
     const contract = await createContractObject()
@@ -103,14 +106,6 @@ const Home = () => {
       <Header />
       <Toaster position='top-center' reverseOrder={false} />
       <div className={styles.mainContainer}>
-        <button
-          style={{ color: 'white' }}
-          onClick={() => {
-            startPrediction()
-          }}
-        >
-          StartBet Test
-        </button>
         <div className={styles.leftMain}>
           <div className={styles.portfolioAmountContainer}>
             <div className={styles.portfolioAmount}>{data.name}</div>
@@ -195,51 +190,36 @@ const Home = () => {
                 }}
                 value={eth}
               />
-              <input
-                className={styles.input}
-                placeholder={timeType}
-                type='number'
-                required
-                onChange={e => {
-                  setTime(e.target.value)
-                }}
-                value={time}
-              />
-              <div
-                className={styles.buyingPowerAmount}
-                onClick={() => setTimeTypeDropDown(!timeDropDown)}
-              >
-                {timeType} <IoMdArrowDropdown />
-                {timeDropDown && (
-                  <div className={styles.dropDownBets}>
-                    {timeTypes.map(data => {
-                      return (
-                        <p
-                          key={data.name}
-                          onClick={() => {
-                            setTimeType(data)
-                          }}
-                        >
-                          {data}
-                        </p>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
             </div>
-            <input
-              type='submit'
-              disabled={availableStock.length === STOCKDATA.length}
-              value='Submit'
-              className={`${
-                styles.button
-              }${' bg-[#ef4b09] w-1/4 text-center mt-8 self-center'}`}
-              onClick={e => {
-                e.preventDefault()
-                createBet()
-              }}
-            />
+            <div
+              style={{ display: 'flex', justifyContent: 'center', gap: '2rem' }}
+            >
+              <input
+                type='submit'
+                disabled={availableStock.length === STOCKDATA.length}
+                value='Submit'
+                className={`${
+                  styles.button
+                }${' bg-[#ef4b09] w-1/4 text-center mt-8 self-center'}`}
+                onClick={e => {
+                  e.preventDefault()
+                  createBet()
+                }}
+              />
+              <input
+                type='submit'
+                style={{ textAlign: 'center' }}
+                disabled={contractOwner !== account}
+                value='(Admin) Start Betting'
+                className={`${
+                  styles.button
+                }${' bg-[#ef4b09] w-1/4 text-center mt-8 self-center'}`}
+                onClick={e => {
+                  e.preventDefault()
+                  startPrediction()
+                }}
+              />
+            </div>
           </form>
           <AvailableBets
             availableStock={availableStock}
