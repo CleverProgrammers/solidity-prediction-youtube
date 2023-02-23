@@ -22,54 +22,12 @@ export const AppProvider = ({ children }) => {
   const [contractOwner, setContractOwner] = useState('')
 
   const account = useAccount().address
-  useEffect(() => {
-    let interval
+  useEffect(() => {}, [isBettingActive])
 
-    const checkBettingStatus = async () => {
-      const contract = await createContractObject()
-      const isActive = await contract.isBettingActive()
-
-      if (isActive) {
-        const isOver = await contract.isPredictionOver()
-
-        if (isOver) {
-          clearInterval(interval)
-
-          if (account === contractOwner) {
-            await finalizeBetting(currentCoinPrice)
-            await getLatestWinner()
-            setIsBettingActive(false)
-          }
-        }
-      }
-    }
-
-    interval = setInterval(checkBettingStatus, 3000)
-
-    return () => clearInterval(interval)
-  }, [isBettingActive])
-
-  useEffect(() => {
-    fetchBets()
-    fetchPool()
-    getOwner()
-  }, [isBettingActive])
+  useEffect(() => {}, [isBettingActive])
 
   const fetchBets = async () => {
     try {
-      const contract = await createContractObject()
-      const bets = await contract.getAllBets()
-      console.log(bets)
-      console.log('Bets Before Formatting: ', bets)
-      const formattedBets = bets.map(bet => {
-        return {
-          address: bet.bettor,
-          guess: bet.amount.toString(),
-          amount: Number(toEth(bet.betAmount.toString())).toFixed(2),
-        }
-      })
-      setBets(formattedBets)
-      console.log('Formatted bets: ', formattedBets)
     } catch (error) {
       console.log(error)
     }
@@ -77,9 +35,6 @@ export const AppProvider = ({ children }) => {
 
   const fetchPool = async () => {
     try {
-      const contract = await createContractObject()
-      const pool = await contract.getPoolAmount()
-      setPool(toEth(pool.toString()))
     } catch (error) {
       console.log(error)
     }
@@ -87,17 +42,6 @@ export const AppProvider = ({ children }) => {
 
   const finalizeBetting = async currentCoinPrice => {
     try {
-      const contract = await createContractObject()
-
-      const result = await contract.finalizePrediction(
-        toWei(currentCoinPrice, 18),
-        {
-          gasLimit: 2000000,
-        },
-      )
-
-      const receipt = await result.wait()
-      console.log(receipt)
     } catch (error) {
       console.log(error)
     }
@@ -105,9 +49,6 @@ export const AppProvider = ({ children }) => {
 
   const getLatestWinner = async () => {
     try {
-      const contract = await createContractObject()
-      const winner = await contract.lastWinner()
-      setLastWinner(truncateEthAddress(winner))
     } catch (error) {
       console.log(error)
     }
@@ -115,17 +56,6 @@ export const AppProvider = ({ children }) => {
 
   const startPrediction = async () => {
     try {
-      const contract = await createContractObject()
-      const result = await contract.startPrediction(
-        toWei(currentCoinPrice, 18),
-        {
-          gasLimit: 800000,
-        },
-      )
-      const receipt = await result.wait()
-      console.log(receipt)
-      setIsBettingActive(true)
-      await contract.resetLastWinner()
     } catch (error) {
       console.log(error)
     }
@@ -133,9 +63,6 @@ export const AppProvider = ({ children }) => {
 
   const getOwner = async () => {
     try {
-      const contract = await createContractObject()
-      const owner = await contract.owner()
-      setContractOwner(owner)
     } catch (error) {
       console.log(error)
     }
