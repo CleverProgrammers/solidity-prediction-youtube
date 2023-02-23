@@ -19,17 +19,9 @@ import { IoMdClose } from 'react-icons/io'
 import { useAppContext } from '../context/context'
 
 const AvailableBets = ({ setSelectedBet, setShowModal }) => {
-  const { bets, lastWinner } = useAppContext()
+  const { bets } = useAppContext()
   // Static
   const allBets = []
-  console.log(bets)
-
-  const staticCloseBet = () => {
-    console.log('Closing bet')
-  }
-  const staticClaimBet = () => {
-    console.log('Claiming bet')
-  }
 
   return (
     <div className={styles.availableBetsContainer}>
@@ -54,10 +46,6 @@ const AvailableBets = ({ setSelectedBet, setShowModal }) => {
               </p>
               <p className={styles.currentStockPriceAmount}>{bet.amount}</p>
             </div>
-            <IoMdClose
-              className='hover:text-[#ffffff] text-2xl mr-4'
-              onClick={() => staticCloseBet(bet)}
-            />
           </div>
         )
       })}
